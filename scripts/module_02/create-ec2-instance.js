@@ -53,11 +53,8 @@ function createSecurityGroup (sgName) {
 
   return new Promise((resolve, reject) => {
     ec2.createSecurityGroup(params, (err, data) => {
-      if (err) {
-        if (err.code.indexOf('InvalidGroup.Duplicate') < 0) 
-          reject(err)
-      }
-      //else {
+      if (err) reject(err)        
+      else {
         const params = {
           GroupId: data.GroupId,
           IpPermissions: [
@@ -88,7 +85,7 @@ function createSecurityGroup (sgName) {
           if (err) reject(err)
           else resolve()
         })
-     // }
+      }
     })
   })
 }
@@ -101,7 +98,7 @@ function createKeyPair (keyName) {
 
   return new Promise((resolve, reject) => {
     ec2.createKeyPair(params, (err, data) => {
-      if (err) reject(err)
+      if (err) reject(err)        
       else resolve(data)
     })
   });
@@ -119,7 +116,7 @@ function createInstance (sgName, keyName) {
     SecurityGroups: [
       sgName
     ],
-    UserData: 'IyEvYmluL2Jhc2gKY3VybCAtLXNpbGVudCAtLWxvY2F0aW9uIGh0dHBzOi8vcnBtLm5vZGVzb3VyY2UuY29tL3NldHVwXzgueCB8IHN1ZG8gYmFzaCAtCnN1ZG8geXVtIGluc3RhbGwgLXkgbm9kZWpzCnN1ZG8geXVtIGluc3RhbGwgLXkgZ2l0CmdpdCBjbG9uZSBodHRwczovL2dpdGh1Yi5jb20vcnlhbm11cmFrYW1pL2hiZmwuZ2l0CmNkIGhiZmwKbnBtIGkKbnBtIHJ1biBzdGFydAoK'
+    UserData: 'IyEvYmluL2Jhc2gKc3VkbyB5dW0gdXBkYXRlCmN1cmwgLS1zaWxlbnQgLS1sb2NhdGlvbiBodHRwczovL3JwbS5ub2Rlc291cmNlLmNvbS9zZXR1cF8xMi54IHwgc3VkbyBiYXNoIC0Kc3VkbyB5dW0gaW5zdGFsbCAteSBub2RlanMKc3VkbyB5dW0gaW5zdGFsbCAteSBnaXQKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9jYWV0YW5vbWIvaGJmbC5naXQKY2QgaGJmbApucG0gaQpucG0gcnVuIHN0YXJ0'
   }
 
   return new Promise((resolve, reject) => {
