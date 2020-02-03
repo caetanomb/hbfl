@@ -3,10 +3,7 @@
   "version": "2.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "dev": "webpack-dev-server",
-    "build": "webpack",
-    "prestart": "npm run build",
+  "scripts": {        
     "start-old": "forever stopall && forever start index.js",
     "start": "node index.js",
     "deploy": "node deploy.js"

@@ -1,17 +1,22 @@
 const webpack = require('webpack')
 const path = require('path')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+//const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
-
   entry: {
     application: './app/index.jsx'
   },
 
-  mode: 'production',
+  output: {
+    filename: '[name].min.js',
+    path: path.resolve(__dirname, 'public')
+  },
+
+  devServer: {
+    contentBase: path.join(__dirname, 'public'),
+    compress: true
+  },
 
   module: {
     rules: [
@@ -19,29 +24,23 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
+
         options: {
-          presets: ['@babel/preset-env', '@babel/preset-react'],
-          plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/plugin-proposal-class-properties']
+          presets: ['es2015', 'react'],
+          plugins: ['transform-object-rest-spread']
         }
       },
       {
-        test: /\.(less|css)$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader?modules',
-          'less-loader'
-        ]
+        test: /\.(less|css)$/
+        // use: ExtractTextPlugin.extract({
+        //   use: [
+        //     'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        //     'less-loader'
+        //   ],
+        //   fallback: 'style-loader'
+        // })
       }
     ]
-  },
-
-  optimization: {
-    minimizer: [new UglifyJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
-  },
-
-  output: {
-    filename: '[name].min.js',
-    path: path.resolve(__dirname, 'public')
   },
 
   plugins: [
@@ -50,9 +49,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('production')
       }
     }),
-    new MiniCssExtractPlugin({ filename: 'stylesheet.css' }),
+    new UglifyJSPlugin(),
     new webpack.optimize.ModuleConcatenationPlugin()
-  ],
-
-  stats: 'errors-only'
+  ]
 }
