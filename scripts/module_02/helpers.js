@@ -4,7 +4,7 @@ const os = require('os')
 
 function persistKeyPair (keyData) {
   return new Promise((resolve, reject) => {
-    const keyPath = path.join(os.homedir(), '.ssh', keyData.KeyName)
+    const keyPath = path.join(os.homedir(), 'ssh', keyData.KeyName)
     const options = {
       encoding: 'utf8',
       mode: 0o600
