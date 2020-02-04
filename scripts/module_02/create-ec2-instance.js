@@ -3,7 +3,7 @@
 const AWS = require('aws-sdk');
 const proxy = require('proxy-agent');
 const helpers = require('./helpers')
-const dotenv = require('dotenv');
+const dotenv = require('dotenv'); //it reads system variables .env file
 dotenv.config();
 
 const proxyInfo = process.env.PROXY_INFO;
@@ -13,7 +13,7 @@ console.log(proxyInfo);
 //process.exit();
 
 //Set region
-AWS.config.update({region: 'eu-central-1'})
+//AWS.config.update({region: 'eu-central-1'})
 AWS.config.loadFromPath('./config.json');
 AWS.config.update({
   httpOptions: { 
@@ -24,8 +24,8 @@ AWS.config.update({
 // Declare local variables
 // TODO: Create an ec2 object
 const ec2 = new AWS.EC2()
-const sgName = 'hamster_sg'
-const keyName = 'hamster_key'
+const sgName = 'hamster_sg2'//'hamster_sg'
+const keyName = 'hamster_key2'//'hamster_key'
 
 // Do all the things together
 createSecurityGroup(sgName)
@@ -108,7 +108,7 @@ function createKeyPair (keyName) {
 function createInstance (sgName, keyName) {
   // TODO: create ec2 instance
   const params = {
-    ImageId: 'ami-07cda0db070313c52', //AMI id
+    ImageId: 'ami-039775f39a728fe2f',//'ami-07cda0db070313c52', //AMI id
     InstanceType: 't2.micro',
     KeyName: keyName,
     MaxCount: 1,
@@ -116,7 +116,7 @@ function createInstance (sgName, keyName) {
     SecurityGroups: [
       sgName
     ],
-    UserData: 'IyEvYmluL2Jhc2gKc3VkbyB5dW0gdXBkYXRlCmN1cmwgLS1zaWxlbnQgLS1sb2NhdGlvbiBodHRwczovL3JwbS5ub2Rlc291cmNlLmNvbS9zZXR1cF8xMi54IHwgc3VkbyBiYXNoIC0Kc3VkbyB5dW0gaW5zdGFsbCAteSBub2RlanMKc3VkbyB5dW0gaW5zdGFsbCAteSBnaXQKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9jYWV0YW5vbWIvaGJmbC5naXQKY2QgaGJmbApucG0gaW5zdGFsbCBwbTIgLWcKbnBtIGkKc3VkbyBwbTIgc3RhcnQgaW5kZXguanM='
+    UserData: 'IyEvYmluL2Jhc2gKc3VkbyBhcHQtZ2V0IHVwZGF0ZQpzdWRvIGFwdC1nZXQgLXkgaW5zdGFsbCBnaXQKZ2l0IGNsb25lIGh0dHBzOi8vZ2l0aHViLmNvbS9jYWV0YW5vbWIvaGJmbC5naXQgL2hvbWUvYml0bmFtaS9oYmZsCmNob3duIC1SIGJpdG5hbWk6IC9ob21lL2JpdG5hbWkvaGJmbApjZCAvaG9tZS9iaXRuYW1pL2hiZmwKbnBtIGluc3RhbGwgcG0yIC1nCnN1ZG8gbnBtIGkKc3VkbyBwbTIgc3RhcnQgaW5kZXguanM='
   }
 
   return new Promise((resolve, reject) => {
