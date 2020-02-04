@@ -108,7 +108,7 @@ function createKeyPair (keyName) {
 function createInstance (sgName, keyName) {
   // TODO: create ec2 instance
   const params = {
-    ImageId: 'ami-039775f39a728fe2f',//'ami-07cda0db070313c52', //AMI id
+    ImageId: 'i-0eac96f8258a4689d',//'ami-07cda0db070313c52', //AMI id
     InstanceType: 't2.micro',
     KeyName: keyName,
     MaxCount: 1,
