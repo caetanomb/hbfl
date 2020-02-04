@@ -68,7 +68,7 @@ function createSecurityGroup (sgName) {
                 }
               ]
             },
-            {
+            {              
               IpProtocol: 'tcp',
               FromPort: 3000,
               ToPort: 3000,
