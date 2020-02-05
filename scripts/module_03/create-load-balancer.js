@@ -1,17 +1,30 @@
 // Imports
 const AWS = require('aws-sdk')
 const helpers = require('./helpers')
+const proxy = require('proxy-agent');
+const dotenv = require('dotenv'); //it reads system variables .env file
+dotenv.config();
+const proxyInfo = process.env.PROXY_INFO;
+console.log(proxyInfo);
 
-AWS.config.update({ region: '/* TODO: Add your region */' })
+//AWS.config.update({ region: '/* TODO: Add your region */' })
+AWS.config.loadFromPath('./config.json');
+AWS.config.update({
+  httpOptions: {
+    agent: proxy(proxyInfo)
+  }
+})
 
 // Declare local variables
 // TODO: Create a new ELBv2 object
+const elbv2 = new AWS.ELBv2()
 const sgName = 'hamsterELBSG'
 const tgName = 'hamsterTG'
 const elbName = 'hamsterELB'
-const vpcId = '/* TODO: Add your VPC Id */'
+const vpcId = 'vpc-b5acb3de'
 const subnets = [
-  /* TODO: Add two subnets */
+  'subnet-a4e721ce',
+  'subnet-bcc8f5c1'
 ]
 
 helpers.createSecurityGroup(sgName, 80)
@@ -31,6 +44,20 @@ helpers.createSecurityGroup(sgName, 80)
 
 function createLoadBalancer (lbName, sgId) {
   // TODO: Create a load balancer
+  const params = {
+    Name: lbName,
+    Subnets: subnets,
+    SecurityGroups: [
+      sgId
+    ]
+  }
+
+  return new Promise((resolve, reject) => {
+    elbv2.createLoadBalancer(params, (err, data) => {
+      if (err) reject(err)
+      else resolve(data)
+    })
+  })
 }
 
 function createTargetGroup (tgName) {

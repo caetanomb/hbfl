@@ -19,7 +19,7 @@ AWS.config.update({
 // TODO: Create an ec2 object
 const ec2 = new AWS.EC2()
 
-createImage('i-0eac96f8258a4689d', 'hamsterImage')
+createImage('i-015d4467de4066372', 'hamsterImage')
 .then(() => console.log('Complete'))
 
 function createImage (seedInstanceId, imageName) {

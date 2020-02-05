@@ -14,6 +14,5 @@ public/images/*-original.png
 .serverless
 
 # Files
-scripts/module_02/config.json
-scripts/module_02/.env
+scripts/**/config.json
 .env

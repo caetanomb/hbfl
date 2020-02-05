@@ -44,6 +44,13 @@ function createIamRole (roleName) {
   }
 
   return new Promise((resolve, reject) => {
+
+      // iam.deleteInstanceProfile({
+      //   InstanceProfileName: profileName
+      // }, (err, data) => {
+      //   resolve(data)
+      // })
+
     iam.createRole(params, (err) => {
       if (err) reject(err)
       else {
