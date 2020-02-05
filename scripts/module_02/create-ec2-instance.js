@@ -3,12 +3,12 @@
 const AWS = require('aws-sdk');
 const proxy = require('proxy-agent');
 const helpers = require('./helpers')
-const dotenv = require('dotenv'); //it reads system variables .env file
-dotenv.config();
+  const dotenv = require('dotenv'); //it reads system variables .env file
+  dotenv.config();
 
-const proxyInfo = process.env.PROXY_INFO;
+  const proxyInfo = process.env.PROXY_INFO;
 
-console.log(proxyInfo);
+  console.log(proxyInfo);
 
 //process.exit();
 
@@ -108,7 +108,7 @@ function createKeyPair (keyName) {
 function createInstance (sgName, keyName) {
   // TODO: create ec2 instance
   const params = {
-    ImageId: 'i-0eac96f8258a4689d',//'ami-07cda0db070313c52', //AMI id
+    ImageId: 'ami-039775f39a728fe2f',//'ami-07cda0db070313c52', //AMI id
     InstanceType: 't2.micro',
     KeyName: keyName,
     MaxCount: 1,
