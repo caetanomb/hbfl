@@ -43,6 +43,11 @@ createSecurityGroup(sgName)
   console.error('Failed to create instance with:', err)
 })
 
+// createInstance(sgName, keyName)
+// .then((data) => {
+//   console.log('Created instance with:', data)
+// })
+
 // Create functions
 function createSecurityGroup (sgName) {
   // TODO: Implement sg creation & setting SSH rule

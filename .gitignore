@@ -16,3 +16,6 @@ requirements.txt
 # Files
 scripts/**/config.json
 .env
+jsoncontent.json
+jsoncontentMFI.json
+MFIResponseWithValidationErrors.json
