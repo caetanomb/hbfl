@@ -15,17 +15,17 @@ const helpers = require('./helpers')
 //Set region
 //AWS.config.update({region: 'eu-central-1'})
 AWS.config.loadFromPath('./config.json');
-AWS.config.update({
-  httpOptions: { 
-    agent: proxy(proxyInfo)
-  }
-});
+// AWS.config.update({
+//   httpOptions: { 
+//     agent: proxy(proxyInfo)
+//   }
+// });
 
 // Declare local variables
 // TODO: Create an ec2 object
 const ec2 = new AWS.EC2()
-const sgName = 'hamster_sg2'//'hamster_sg'
-const keyName = 'hamster_key2'//'hamster_key'
+const sgName = 'hamster_sg'//'hamster_sg'
+const keyName = 'hamster_key'//'hamster_key'
 
 // Do all the things together
 createSecurityGroup(sgName)

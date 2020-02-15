@@ -1,13 +1,26 @@
 // Imports
 const AWS = require('aws-sdk')
+const proxy = require('proxy-agent');
+  const dotenv = require('dotenv'); //it reads system variables .env file
+  dotenv.config();
 
-AWS.config.update({ region: '/* TODO: Add your regions */' })
+  const proxyInfo = process.env.PROXY_INFO;
+
+  console.log(proxyInfo);
+
+//AWS.config.update({ region: '/* TODO: Add your regions */' })
+AWS.config.loadFromPath('./config.json');
+// AWS.config.update({
+//   httpOptions: { 
+//     agent: proxy(proxyInfo)
+//   }
+// });
 
 // Declare local variables
 const ec2 = new AWS.EC2()
 const sgName = 'hamster_sg'
 const keyName = 'hamster_key'
-const instanceId = '/* TODO: Add the instance Id to stop */'
+const instanceId = 'i-06bbe3113a8487b47' //Running instance created on Module 2
 
 stopInstance(instanceId)
 .then(() => createInstance(sgName, keyName))
@@ -15,13 +28,13 @@ stopInstance(instanceId)
 
 function createInstance (sgName, keyName) {
   const params = {
-    ImageId: '/* TODO: Add ami id for aws linux */',
+    ImageId: 'ami-0df0e7600ad0913a9',
     InstanceType: 't2.micro',
     KeyName: keyName,
     MaxCount: 1,
     MinCount: 1,
     Placement: {
-      AvailabilityZone: '/* TODO: Add the az from the instance that is stopping */'
+      AvailabilityZone: 'eu-central-1b'
     },
     SecurityGroups: [
       sgName
