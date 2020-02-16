@@ -1,9 +1,22 @@
 // Imports
 const AWS = require('aws-sdk')
+const proxy = require('proxy-agent')
+const dotenv = require('dotenv') //it reads system variables .env file
 
-AWS.config.update({ region: '/* TODO: Add your region */' })
+dotenv.config()
+const proxyInfo = process.env.PROXY_INFO
+console.log(proxyInfo)
+
+//AWS.config.update({ region: '/* TODO: Add your regions */' })
+AWS.config.loadFromPath('./config.json');
+// AWS.config.update({
+//   httpOptions: { 
+//     agent: proxy(proxyInfo)
+//   }
+// });
 
 const ec2 = new AWS.EC2()
+const rds = new AWS.RDS();
 // TODO: Create an rds object
 const dbName = 'user'
 
@@ -13,9 +26,23 @@ createSecurityGroup(dbName)
 
 function createDatabase (dbName, sgId) {
   // TODO: Create the params object
+  const params = {
+    AllocatedStorage: 5,
+    DBInstanceClass: 'db.t2.micro',
+    DBInstanceIdentifier: dbName,
+    Engine: 'mysql',
+    DBName: dbName,
+    VpcSecurityGroupIds: [ sgId ],
+    MasterUsername: 'admin',
+    MasterUserPassword: 'mypassword'
+  }
 
   return new Promise((resolve, reject) => {
     // TODO: Create the db instance
+    rds.createDBInstance(params, (err, data) => {
+      if (err) reject(err)
+      else resolve(data)
+    })
   })
 }
 
